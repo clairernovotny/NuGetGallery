@@ -276,6 +276,11 @@ namespace NuGetGallery
                 .As<IEntityRepository<PackageRename>>()
                 .InstancePerLifetimeScope();
 
+            builder.RegisterType<EntityRepository<FederatedCredentialPolicy>>()
+                .AsSelf()
+                .As<IEntityRepository<FederatedCredentialPolicy>>()
+                .InstancePerLifetimeScope();
+
             ConfigureGalleryReadOnlyReplicaEntitiesContext(builder, loggerFactory, configuration, secretInjector, telemetryService);
 
             var supportDbConnectionFactory = CreateDbConnectionFactory(
