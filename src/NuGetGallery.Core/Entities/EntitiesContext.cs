@@ -1,4 +1,4 @@
-﻿// Copyright (c) .NET Foundation. All rights reserved.
+// Copyright (c) .NET Foundation. All rights reserved.
 // Licensed under the Apache License, Version 2.0. See License.txt in the project root for license information.
 
 using System;
@@ -84,6 +84,7 @@ namespace NuGetGallery
         public DbSet<PackageVulnerability> Vulnerabilities { get; set; }
         public DbSet<VulnerablePackageVersionRange> VulnerableRanges { get; set; }
         public DbSet<PackageRename> PackageRenames { get; set; }
+        public DbSet<FederatedCredentialPolicy> FederatedCredentialPolicies { get; set; }
 
         /// <summary>
         /// User or organization accounts.
@@ -558,6 +559,23 @@ namespace NuGetGallery
                 .WithMany()
                 .HasForeignKey(r => r.ToPackageRegistrationKey)
                 .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<FederatedCredentialPolicy>()
+                .HasKey(fcp => fcp.Key);
+
+            modelBuilder.Entity<FederatedCredentialPolicy>()
+                .Property(pv => pv.Created)
+                .HasColumnType("datetime2");
+
+            modelBuilder.Entity<FederatedCredentialPolicy>()
+                .Property(pv => pv.LastUpdated)
+                .IsOptional()
+                .HasColumnType("datetime2");
+
+            modelBuilder.Entity<FederatedCredentialPolicy>()
+                .Property(pv => pv.LastEvaluated)
+                .IsOptional()
+                .HasColumnType("datetime2");
         }
 
 #pragma warning restore 618
